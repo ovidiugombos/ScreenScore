@@ -3,6 +3,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import config from "../../utilities/config";
 import { observer } from "../../utilities/intersectionObserver";
+import { getData } from "../../utilities/helpers";
 import { Container, Col, Row } from "react-bootstrap";
 import ClipLoader from "react-spinners/ClipLoader";
 
@@ -84,21 +85,20 @@ export default function TVShows() {
     setTvTopRated(arr);
   }
 
+  async function handleTvshowsData(url) {
+    const res = await getData(url);
+    return res;
+  }
+
   useEffect(() => {
-    try {
-      fetch(config.tvApiPopular)
-        .then((data) => data.json())
-        .then((res) => createPopularTvShows(res.results));
-    } catch (error) {
-      console.log(error);
+    async function getTvData() {
+      const tvPopularData = await handleTvshowsData(config.tvApiPopular);
+      const tvTopRatedData = await handleTvshowsData(config.tvApiTopRated);
+      createPopularTvShows(tvPopularData.results);
+      createTopRatedTvShows(tvTopRatedData.results);
     }
-    try {
-      fetch(config.tvApiTopRated)
-        .then((data) => data.json())
-        .then((res) => createTopRatedTvShows(res.results));
-    } catch (error) {
-      console.log(error);
-    }
+    getTvData();
+    
   }, []);
 
   return (

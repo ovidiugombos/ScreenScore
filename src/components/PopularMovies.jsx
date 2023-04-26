@@ -5,7 +5,7 @@ import { observer } from "../utilities/intersectionObserver";
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import ClipLoader from "react-spinners/ClipLoader";
-
+import { getData } from "../utilities/helpers";
 import {
   Button,
   CarouselItem,
@@ -42,17 +42,13 @@ export default function PopularMovies() {
     ));
     setCards(arr);
   }
+  async function handleData() {
+    const res = await getData(config.apiPopularUrl);
+    createCards(res.results);
+  }
 
   useEffect(() => {
-    try {
-      fetch(config.apiPopularUrl)
-        .then((data) => data.json())
-        .then((res) => {
-          createCards(res.results);
-        });
-    } catch (err) {
-      console.log(err);
-    }
+    handleData();
   }, []);
 
   return (

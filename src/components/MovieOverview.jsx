@@ -1,6 +1,7 @@
 import config from "../utilities/config";
 import Cards from "./Cards";
 import { observer } from "../utilities/intersectionObserver";
+import { getData } from "../utilities/helpers";
 import React, { useState, useEffect, useRef, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Container, Row, Col, Card, Button } from "react-bootstrap";
@@ -186,12 +187,15 @@ export default function MovieOverview() {
 
   //fetching similar movies
 
+  async function handleSimilarMoviesData(url) {
+    const res = await getData(url);
+    createSimilarMovies(res.results);
+  }
+
   useEffect(() => {
-    fetch(
-      `https://api.themoviedb.org/3/movie/${movieId}/similar?api_key=5da148ae85fba43a0abfb7bff2aca05a`
-    )
-      .then((data) => data.json())
-      .then((res) => createSimilarMovies(res.results));
+    handleSimilarMoviesData(
+      config.apiSimilarMovies.replace("{movieid}", movieId)
+    );
   }, [movie]);
 
   // creating the genres of a movie
@@ -202,30 +206,20 @@ export default function MovieOverview() {
   }
 
   //fetching the movies and movies reviews
+  async function handleMovieData(url) {
+    const res = await getData(url);
+    setMovie(res);
+    handleMovieGenres(res.genres);
+  }
+
+  async function handleMovieReview(url) {
+    const res = await getData(url);
+    setReview(res.results);
+  }
 
   useEffect(() => {
-    try {
-      fetch(
-        `https://api.themoviedb.org/3/movie/${movieId}?api_key=5da148ae85fba43a0abfb7bff2aca05a&language=en-US`
-      )
-        .then((data) => data.json())
-        .then((res) => {
-          setMovie(res);
-          handleMovieGenres(res.genres);
-        });
-    } catch (error) {
-      console.log(error);
-    }
-
-    try {
-      fetch(
-        `https://api.themoviedb.org/3/movie/${movieId}/reviews?api_key=5da148ae85fba43a0abfb7bff2aca05a&language=en-US&page=1`
-      )
-        .then((data) => data.json())
-        .then((res) => setReview(res.results));
-    } catch (error) {
-      console.log(error);
-    }
+    handleMovieData(config.apiMovieId.replace("{movieid}", movieId));
+    handleMovieReview(config.apiMovieReview.replace("{movieid}", movieId));
   }, [movieId]);
 
   return (

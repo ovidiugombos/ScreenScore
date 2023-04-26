@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import config from "../utilities/config";
+import { getData } from "../utilities/helpers";
 import { useParams, useNavigate } from "react-router-dom";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import ClipLoader from "react-spinners/ClipLoader";
@@ -72,18 +73,19 @@ export default function SearchResults() {
     setSelectesOption(e.target.value);
   }
 
+  async function handleResults(url) {
+    const res = await getData(url);
+    createResults(res.results);
+  }
+
   useEffect(() => {
     selectedOption === "tvshows" &&
-      fetch(`${config.searchTvShowUrl}${searchText}`)
-        .then((data) => data.json())
-        .then((res) => createResults(res.results));
+      handleResults(`${config.searchTvShowUrl}${searchText}`);
   }, [searchText, selectedOption]);
 
   useEffect(() => {
     selectedOption === "movies" &&
-      fetch(`${config.searchMovieUrl}${searchText}`)
-        .then((data) => data.json())
-        .then((res) => createResults(res.results));
+      handleResults(`${config.searchMovieUrl}${searchText}`);
   }, [searchText, selectedOption]);
 
   return results ? (

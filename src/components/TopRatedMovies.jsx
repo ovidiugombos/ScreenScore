@@ -1,6 +1,7 @@
 import MovieOverview from "./MovieOverview";
 import Cards from "./Cards";
 import config from "../utilities/config";
+import { getData } from "../utilities/helpers";
 import { observer } from "../utilities/intersectionObserver";
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
@@ -39,16 +40,13 @@ export default function TopRatedMovies() {
     setCards(arr);
   }
 
+  async function handleData() {
+    const res = await getData(config.apiTopRatedUrl);
+    createCards(res.results);
+  }
+
   useEffect(() => {
-    try {
-      fetch(config.apiTopRatedUrl)
-        .then((data) => data.json())
-        .then((res) => {
-          createCards(res.results);
-        });
-    } catch (err) {
-      console.log(err);
-    }
+    handleData();
   }, []);
 
   return (

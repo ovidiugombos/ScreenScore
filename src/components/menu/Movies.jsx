@@ -52,6 +52,7 @@ export default function Movies() {
         pathColor = "#bcc02e";
         trailColor = "#3e3a11";
       }
+
       return (
         <Card className="card--movie mx-2 my-2  shadow">
           <div className="position-relative">
@@ -96,8 +97,10 @@ export default function Movies() {
     });
     return cards;
   }
+
   useEffect(() => {
-    setAllMovies((prevAllMovies) => [...prevAllMovies, ...movies]);
+    if (page === 1) setAllMovies(movies);
+    else setAllMovies((prevAllMovies) => [...prevAllMovies, ...movies]);
   }, [movies]);
 
   //change the filter

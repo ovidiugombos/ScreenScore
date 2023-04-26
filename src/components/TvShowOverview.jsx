@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
+import { getData } from "../utilities/helpers";
 import config from "../utilities/config";
 import { useParams, useNavigate } from "react-router-dom";
 import { Container, Row, Col, Card } from "react-bootstrap";
@@ -144,15 +145,16 @@ export default function TvShowOverview() {
 
   //fetching the tvshow
 
+  async function handleTvshowData(url) {
+    const res = await getData(url);
+    console.log(res);
+    setTvShow(res);
+    handleTvGenres(res.genres);
+  }
+
   useEffect(() => {
-    fetch(
-      `https://api.themoviedb.org/3/tv/${tvShowId}?api_key=5da148ae85fba43a0abfb7bff2aca05a&language=en-US`
-    )
-      .then((data) => data.json())
-      .then((res) => {
-        setTvShow(res);
-        handleTvGenres(res.genres);
-      });
+    console.log("ok");
+    handleTvshowData(config.apiTvshowId.replace("{tvshowid}", tvShowId));
   }, [tvShowId]);
 
   //navigate on click to another tvshowinfo
@@ -192,13 +194,15 @@ export default function TvShowOverview() {
   }
 
   //fetching similar tvshows
+  async function handleSimilarTvshowsData(url) {
+    const res = await getData(url);
+    createSimilarTvshows(res.results);
+  }
 
   useEffect(() => {
-    fetch(
-      `https://api.themoviedb.org/3/tv/${tvShowId}/similar?api_key=5da148ae85fba43a0abfb7bff2aca05a&language=en-US&page=1`
-    )
-      .then((data) => data.json())
-      .then((res) => createSimilarTvshows(res.results));
+    handleSimilarTvshowsData(
+      config.apiSimilarTvshows.replace("{tvshowid}", tvShowId)
+    );
   }, [tvShow]);
 
   return (

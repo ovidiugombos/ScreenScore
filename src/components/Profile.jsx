@@ -7,6 +7,7 @@ import Cards from "./Cards";
 import TvShowOverview from "./TvShowOverview";
 import { db } from "../firebase/firebase";
 import config from "../utilities/config";
+import { getData } from "../utilities/helpers";
 import { UserContext } from "../firebase/context";
 export default function Profile() {
   const [filterMovie, setFilterMovie] = useState(true);
@@ -59,16 +60,11 @@ export default function Profile() {
   }
 
   async function createMovie(id) {
-    await fetch(
-      `https://api.themoviedb.org/3/movie/${id}?api_key=5da148ae85fba43a0abfb7bff2aca05a&language=en-US`
-    )
-      .then((data) => data.json())
-      .then((res) => {
-        setMovies((prevMovies) => [
-          ...prevMovies,
-          <Cards movie={res} showMovieInfo={showMovie} key={res.id} />,
-        ]);
-      });
+    const res = await getData(config.apiMovieId.replace("{movieid}", id));
+    setMovies((prevMovies) => [
+      ...prevMovies,
+      <Cards movie={res} showMovieInfo={showMovie} key={res.id} />,
+    ]);
   }
 
   useEffect(() => {
@@ -98,38 +94,34 @@ export default function Profile() {
   }
 
   async function createTvshows(id) {
-    await fetch(
-      `https://api.themoviedb.org/3/tv/${id}?api_key=5da148ae85fba43a0abfb7bff2aca05a&language=en-US`
-    )
-      .then((data) => data.json())
-      .then((res) => {
-        setTvShows((prevTvShows) => {
-          if (res.poster_path) {
-            return [
-              ...prevTvShows,
-              <Card
-                className="border-0 card--movie px-2   bg-transparent"
-                key={res.id}
-              >
-                <Card.Img
-                  onClick={() => showTvInfo(res.id)}
-                  src={`${config.imgUrl}${res.poster_path}`}
-                />
-                <Card.Body>
-                  <Card.Title onClick={() => showTvInfo(res.id)}>
-                    {res.name}
-                  </Card.Title>
-                  <Card.Text className="text-secondary">
-                    {res.first_air_date}
-                  </Card.Text>
-                </Card.Body>
-              </Card>,
-            ];
-          } else {
-            return [...prevTvShows];
-          }
-        });
-      });
+    const res = await getData(config.apiTvshowId.replace("{tvshowid}", id));
+
+    setTvShows((prevTvShows) => {
+      if (res.poster_path) {
+        return [
+          ...prevTvShows,
+          <Card
+            className="border-0 card--movie px-2   bg-transparent"
+            key={res.id}
+          >
+            <Card.Img
+              onClick={() => showTvInfo(res.id)}
+              src={`${config.imgUrl}${res.poster_path}`}
+            />
+            <Card.Body>
+              <Card.Title onClick={() => showTvInfo(res.id)}>
+                {res.name}
+              </Card.Title>
+              <Card.Text className="text-secondary">
+                {res.first_air_date}
+              </Card.Text>
+            </Card.Body>
+          </Card>,
+        ];
+      } else {
+        return [...prevTvShows];
+      }
+    });
   }
 
   useEffect(() => {
