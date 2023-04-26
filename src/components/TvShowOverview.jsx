@@ -4,6 +4,8 @@ import { useParams, useNavigate } from "react-router-dom";
 import { Container, Row, Col, Card } from "react-bootstrap";
 import { db } from "../firebase/firebase";
 import { UserContext } from "../firebase/context";
+import ClipLoader from "react-spinners/ClipLoader";
+
 import {
   addDoc,
   collection,
@@ -22,6 +24,7 @@ export default function TvShowOverview() {
   const navigate = useNavigate();
   const user = useContext(UserContext);
   const userId = user?.uid;
+  const [color, setColor] = useState("#ffffff");
 
   //check if tvshow is added to favourite or watchlist
 
@@ -200,61 +203,68 @@ export default function TvShowOverview() {
 
   return (
     <>
-      <Container fluid className="container--tvshow_overview text-white p-5">
-        <Row>
-          <Col className="d-flex" md={3}>
-            <img
-              className="  rounded shadow-lg  image--tv_overview"
-              src={`${config.imgUrl}${tvShow.poster_path}`}
-            />
-          </Col>
-          <Col className="my-3" md={9}>
-            <h1>
-              <span className="title--movie">{tvShow.name} </span>
-              <span className="title--year">
-                ({tvShow.first_air_date?.slice(0, 4)})
-              </span>
-            </h1>
-            <p>
+      <Container
+        fluid
+        className="container--tvshow_overview text-white p-5 d-flex align-items-center justify-content-center"
+      >
+        {tvShow ? (
+          <Row>
+            <Col className="d-flex" md={3}>
               <img
-                className=" img--rating_star mx-1"
-                src="\src\images\rating_star.png"
+                className="  rounded shadow-lg  image--tv_overview"
+                src={`${config.imgUrl}${tvShow.poster_path}`}
               />
-              {tvShow.vote_average?.toFixed(1)}
-              /10 - {genres.join(",")}
-            </p>
-            <hr className="hr" />
+            </Col>
+            <Col className="my-3" md={9}>
+              <h1>
+                <span className="title--movie">{tvShow.name} </span>
+                <span className="title--year">
+                  ({tvShow.first_air_date?.slice(0, 4)})
+                </span>
+              </h1>
+              <p>
+                <img
+                  className=" img--rating_star mx-1"
+                  src="\src\images\rating_star.png"
+                />
+                {tvShow.vote_average?.toFixed(1)}
+                /10 - {genres.join(",")}
+              </p>
+              <hr className="hr" />
 
-            <h4>{tvShow.tagline || "Overview"}</h4>
-            <p>{tvShow.overview}</p>
-            {user && (
-              <Container className="mb-3" fluid>
-                <button
-                  className="mx-2 btn--favourites btn--overview "
-                  onClick={handleIsFavourite}
-                >
-                  <img
-                    className="btn--overview_true"
-                    src={`/src/images/${isFavourite}.png`}
-                  />
-                </button>
-                <button
-                  className="mx-2 btn--watchlist btn--overview"
-                  onClick={handleWatchList}
-                >
-                  <img
-                    className="btn--overview_true"
-                    src={`/src/images/watch_${isOnWatchList}.png`}
-                  />
-                </button>
-              </Container>
-            )}
+              <h4>{tvShow.tagline || "Overview"}</h4>
+              <p>{tvShow.overview}</p>
+              {user && (
+                <Container className="mb-3" fluid>
+                  <button
+                    className="mx-2 btn--favourites btn--overview "
+                    onClick={handleIsFavourite}
+                  >
+                    <img
+                      className="btn--overview_true"
+                      src={`/src/images/${isFavourite}.png`}
+                    />
+                  </button>
+                  <button
+                    className="mx-2 btn--watchlist btn--overview"
+                    onClick={handleWatchList}
+                  >
+                    <img
+                      className="btn--overview_true"
+                      src={`/src/images/watch_${isOnWatchList}.png`}
+                    />
+                  </button>
+                </Container>
+              )}
 
-            <a href={`${tvShow.homepage}`}>
-              Click here to go at the movie homepage!{" "}
-            </a>
-          </Col>
-        </Row>
+              <a href={`${tvShow.homepage}`}>
+                Click here to go at the movie homepage!{" "}
+              </a>
+            </Col>
+          </Row>
+        ) : (
+          <ClipLoader color={color} />
+        )}
       </Container>
 
       {similarTvShows.length > 0 && (

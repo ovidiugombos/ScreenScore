@@ -4,6 +4,8 @@ import config from "../utilities/config";
 import { observer } from "../utilities/intersectionObserver";
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import ClipLoader from "react-spinners/ClipLoader";
+
 import {
   Button,
   CarouselItem,
@@ -19,6 +21,7 @@ export default function PopularMovies() {
   const [cards, setCards] = useState([]);
   const mainContainer = useRef(null);
   const navigate = useNavigate();
+  const [color, setColor] = useState("#228ce9");
 
   useEffect(() => {
     observer.observe(mainContainer.current);
@@ -55,6 +58,7 @@ export default function PopularMovies() {
   return (
     <div ref={mainContainer} className="container--home_movies ">
       <h3 className="my-4 mx-2">Trending now</h3>
+      {/* <ClipLoader color={color} /> */}
       <Container fluid className="container--movies_cards  d-flex ">
         {cards}
       </Container>

@@ -1,12 +1,11 @@
 import React, { useEffect, useState, useRef, useContext } from "react";
 import Slideshow from "../Slideshow";
 import PopularMovies from "../PopularMovies";
+
 import TopRatedMovies from "../TopRatedMovies";
 import { observer } from "../../utilities/intersectionObserver";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import { UserContext } from "../../firebase/context";
-import { collection, addDoc, getDocs } from "firebase/firestore";
-import { db } from "../../firebase/firebase";
 
 export default function Home() {
   const joinUsContainer = useRef(null);
@@ -16,13 +15,18 @@ export default function Home() {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    observer.observe(joinUsContainer.current);
+    joinUsContainer.current && observer.observe(joinUsContainer.current);
+
+    return () => {
+      observer.disconnect();
+    };
   }, []);
 
   return (
     <div className="home bg-white">
       <Slideshow />
       <PopularMovies />
+
       <Container
         fluid
         ref={joinUsContainer}
@@ -30,7 +34,7 @@ export default function Home() {
       >
         <Row>
           <Col sm={8}>
-            <Container className="  p-4">
+            <Container className="p-4">
               <h2>Join us</h2>
               <p className="my-4">
                 Calling all movie enthusiasts! Are you tired of struggling to
@@ -58,6 +62,7 @@ export default function Home() {
           </Col>
         </Row>
       </Container>
+
       <TopRatedMovies />
     </div>
   );

@@ -19,7 +19,7 @@ export default function Slideshow() {
       <Carousel.Item>
         <img
           className="d-block  img"
-          src="./src/images/avatar2.jpg"
+          src="./src/images/wednesday.jpg"
           alt="First slide"
         />
         <Carousel.Caption className="carousel--shape  bg-danger">
@@ -28,20 +28,31 @@ export default function Slideshow() {
       </Carousel.Item>
       <Carousel.Item>
         <img
+          className="d-block  img"
+          src="./src/images/aguilar.jpg"
+          alt="First slide"
+        />
+        <Carousel.Caption className="carousel--shape  bg-info">
+          <h3 className="carousel--shape_text">Add your favourite!</h3>
+        </Carousel.Caption>
+      </Carousel.Item>
+
+      <Carousel.Item>
+        <img
           className="d-block img "
-          src="/src/images/indiana.jpg"
-          alt="Second slide"
+          src="/src/images/groot.jpg"
+          alt="third slide"
         />
 
         <Carousel.Caption className="carousel--shape bg-success">
-          <h3 className="carousel--shape_text">Look up for reviews</h3>
+          <h3 className="carousel--shape_text">Save for later</h3>
         </Carousel.Caption>
       </Carousel.Item>
       <Carousel.Item>
         <img
           className="d-block img "
           src="./src/images/idk.jpg"
-          alt="Third slide"
+          alt="fourth slide"
         />
 
         <Carousel.Caption className="carousel--shape bg-primary">

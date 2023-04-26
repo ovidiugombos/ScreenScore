@@ -73,11 +73,11 @@ export default function PageNavbar() {
 
   return (
     <>
-      <Navbar expand="lg" className="px-5  sticky-top">
+      <Navbar expand="lg" className="px-5 py-1 text-white sticky-top">
         <Navbar.Brand
           as={Link}
           to="/home"
-          className=" nav--brand d-none d-lg-block "
+          className="fw-bold nav--brand d-none d-lg-block "
         >
           ScreenScore
         </Navbar.Brand>
@@ -102,27 +102,46 @@ export default function PageNavbar() {
           </InputGroup>
         </Form>
 
-        <Navbar.Toggle className=" my-1" aria-controls="collapsible-navbar" />
+        <Navbar.Toggle
+          className="bg-white my-1"
+          aria-controls="collapsible-navbar"
+        />
         <Navbar.Collapse
-          className="justify-content-end "
+          className="justify-content-end"
           id="collapsible-navbar"
         >
           <Nav>
-            <Nav.Link onClick={activeNavButton} as={Link} to="/home">
+            <Nav.Link
+              className="text-white"
+              onClick={activeNavButton}
+              as={Link}
+              to="/home"
+            >
               Home
             </Nav.Link>
 
-            <Nav.Link onClick={activeNavButton} as={Link} to="/movies">
+            <Nav.Link
+              className="text-white"
+              onClick={activeNavButton}
+              as={Link}
+              to="/movies"
+            >
               Movies
             </Nav.Link>
 
-            <Nav.Link onClick={activeNavButton} as={Link} to="/tvshows">
+            <Nav.Link
+              className="text-white"
+              onClick={activeNavButton}
+              as={Link}
+              to="/tvshows"
+            >
               TV
             </Nav.Link>
 
             {user && (
               <>
                 <Nav.Link
+                  className="text-white"
                   onClick={activeNavButton}
                   as={Link}
                   to="/profile/favourite"
@@ -131,6 +150,7 @@ export default function PageNavbar() {
                 </Nav.Link>
 
                 <Nav.Link
+                  className="text-white"
                   onClick={activeNavButton}
                   as={Link}
                   to="/profile/watchlist"
@@ -139,7 +159,7 @@ export default function PageNavbar() {
                 </Nav.Link>
 
                 <Nav.Link
-                  className="fw-bold"
+                  className="fw-bold text-white"
                   variant="primary"
                   onClick={handleSignOut}
                 >

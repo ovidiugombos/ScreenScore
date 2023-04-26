@@ -10,9 +10,7 @@ body {
 /* NAVBAR */
 .navbar {
   z-index: 10;
-  background-color: rgba(255, 255, 255);
-  backdrop-filter: blur(1px);
-  margin-bottom: -1px;
+  background-color: #021d3d;
   border: none;
 }
 .nav--brand {
@@ -23,16 +21,21 @@ body {
   background-clip: text;
 }
 .nav-link {
+  font-weight: bold;
+  color: white;
   margin-right: 20px;
   height: 35px;
   box-sizing: border-box;
+  line-height: 16px;
 }
+.nav-link:hover {
+  color: white;
+}
+
 .nav-link-active {
   border-bottom: solid 3px rgb(253, 250, 76);
 }
 .nav--input {
-  /* width: 100%; */
-
   max-width: 400px;
 }
 .nav--account {
@@ -99,6 +102,7 @@ body {
 }
 .container--movies_cards {
   overflow-y: hidden;
+  transition: 0.5s;
 }
 .direction--button {
   background-color: #ffffff;
@@ -128,10 +132,21 @@ body {
 }
 
 .card--movie {
+  position: relative;
   width: 165px;
   flex-shrink: 0;
   transition: 0.5s;
 }
+.card--score {
+  position: absolute;
+  /* border: white 1px solid; */
+  width: 40px;
+  height: 40px;
+  /* border-radius: 50%; */
+  left: 5%;
+  bottom: -5%;
+}
+
 .card-img {
   cursor: pointer;
 }
@@ -157,6 +172,7 @@ body {
   background-image: url("../images/test.png");
   background-size: cover;
   background-repeat: no-repeat;
+  min-height: 400px;
 }
 .title--year {
   color: rgb(175, 174, 174);
@@ -217,20 +233,7 @@ body {
 .card--similar_movies_text {
   font-size: 13px;
 }
-/* .container--similar_movies::-webkit-scrollbar {
-  width: 2px;
-  background-color: #f5f5f5;
-  border-radius: 5px;
-}
 
-.container--similar_movies::-webkit-scrollbar-thumb {
-  background-color: #acacac;
-  border-radius: 5px;
-}
-
-.container--similar_movies::-webkit-scrollbar-thumb:hover {
-  background-color: #555555;
-} */
 /* MOVIES */
 
 .container--filter_buttons {
@@ -261,7 +264,20 @@ body {
 .btn--upcoming {
   cursor: pointer;
 }
+.filter_category {
+  color: #0000ee;
+  text-decoration: underline;
+  cursor: pointer;
+  width: max-content;
+  margin: 0;
+}
+.filter_category:hover {
+  color: #08088d;
+}
 /* TV SHOWS */
+.container--spinner_tvshows {
+  min-height: 300px;
+}
 
 .image--tvshow_popular {
   align-self: flex-start;
@@ -295,6 +311,7 @@ body {
   background-image: url("../images/TvShowOverview-bg.png");
   background-size: cover;
   background-repeat: no-repeat;
+  min-height: 400px;
 }
 .image--tv_overview {
   align-self: flex-start;
@@ -302,6 +319,9 @@ body {
   min-width: 150px;
 }
 /* SEARCH RESULTS */
+.container--show_results {
+  min-height: 400px;
+}
 .search--title:hover {
   text-decoration: underline;
   cursor: pointer;
@@ -369,3 +389,4 @@ body {
 .footer--copyright {
   color: #0275d8;
 }
+/* TRAILER  */

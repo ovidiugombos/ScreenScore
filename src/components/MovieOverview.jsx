@@ -17,6 +17,7 @@ import {
 import { async } from "@firebase/util";
 import { db } from "../firebase/firebase";
 import NavbarOffcanvas from "react-bootstrap/esm/NavbarOffcanvas";
+import ClipLoader from "react-spinners/ClipLoader";
 
 export default function MovieOverview() {
   const [movie, setMovie] = useState("");
@@ -31,6 +32,7 @@ export default function MovieOverview() {
   const navigate = useNavigate();
   const user = useContext(UserContext);
   const userId = user?.uid;
+  const [color, setColor] = useState("#ffffff");
 
   //scrolling to top
 
@@ -175,7 +177,7 @@ export default function MovieOverview() {
 
   function createSimilarMovies(movies) {
     const arr = movies.map(function (mov) {
-      if (mov.poster_path) {
+      if (mov.poster_path && mov.vote_average) {
         return <Cards showMovieInfo={showMovieInfo} movie={mov} key={mov.id} />;
       }
     });
@@ -192,7 +194,7 @@ export default function MovieOverview() {
       .then((res) => createSimilarMovies(res.results));
   }, [movie]);
 
-  // creating the genres os a movie
+  // creating the genres of a movie
 
   function handleMovieGenres(movieGenres) {
     const createGenres = movieGenres.map((genre) => `  ${genre.name}  `);
@@ -231,70 +233,73 @@ export default function MovieOverview() {
       <Container
         ref={containerMovieOverview}
         fluid
-        className="container--movie_overview  text-white"
+        className="container--movie_overview d-flex justify-content-center align-items-center text-white"
       >
-        <Container className="p-5">
-          <Row>
-            <Col md={4}>
-              {movie.poster_path && (
-                <img
-                  className="  rounded shadow-lg"
-                  src={`${config.imgUrl}${movie.poster_path}`}
-                />
-              )}
-            </Col>
-            <Col className="my-3" md={8}>
-              <h1>
-                <span className="title--movie" onClick={reload}>
-                  {movie.title}{" "}
-                </span>
-                <span className="title--year">
-                  ({movie.release_date?.slice(0, 4)})
-                </span>
-              </h1>
-              <p>
-                <img
-                  className="img--rating_star mx-1"
-                  src="\src\images\rating_star.png"
-                />
-                {movie.vote_average?.toFixed(1)}
-                /10 -{"  "}
-                {genres.join(",")}
-              </p>
-              <hr className="hr" />
+        {movie ? (
+          <Container className="p-5">
+            <Row>
+              <Col md={4}>
+                {movie.poster_path && (
+                  <img
+                    className="  rounded shadow-lg"
+                    src={`${config.imgUrl}${movie.poster_path}`}
+                  />
+                )}
+              </Col>
+              <Col className="my-3" md={8}>
+                <h1>
+                  <span className="title--movie" onClick={reload}>
+                    {movie.title}{" "}
+                  </span>
+                  <span className="title--year">
+                    ({movie.release_date?.slice(0, 4)})
+                  </span>
+                </h1>
+                <p>
+                  <img
+                    className="img--rating_star mx-1"
+                    src="\src\images\rating_star.png"
+                  />
+                  {movie.vote_average?.toFixed(1)}
+                  /10 -{genres.join(",")}
+                </p>
+                <hr className="hr" />
 
-              <h4>{movie.tagline || "Overview"}</h4>
-              <p>{movie.overview}</p>
+                <h4>{movie.tagline || "Overview"}</h4>
+                <p>{movie.overview}</p>
 
-              {user && (
-                <Container fluid>
-                  <button
-                    className="mx-2 btn--favourites btn--overview "
-                    onClick={handleIsFavourite}
-                  >
-                    <img
-                      className="btn--overview_true"
-                      src={`/src/images/${isFavourite}.png`}
-                    />
-                  </button>
-                  <button
-                    className="mx-2 btn--watchlist btn--overview"
-                    onClick={handleWatchList}
-                  >
-                    <img
-                      className="btn--overview_true"
-                      src={`/src/images/watch_${isOnWatchList}.png`}
-                    />
-                  </button>
-                </Container>
-              )}
+                {user && (
+                  <Container fluid>
+                    <button
+                      className="mx-2 btn--favourites btn--overview "
+                      onClick={handleIsFavourite}
+                    >
+                      <img
+                        className="btn--overview_true"
+                        src={`/src/images/${isFavourite}.png`}
+                      />
+                    </button>
+                    <button
+                      className="mx-2 btn--watchlist btn--overview"
+                      onClick={handleWatchList}
+                    >
+                      <img
+                        className="btn--overview_true"
+                        src={`/src/images/watch_${isOnWatchList}.png`}
+                      />
+                    </button>
+                  </Container>
+                )}
 
-              <a className="d-block mt-3" href={`${movie.homepage}`}>
-                Click here to go at the movie homepage!{" "}
-              </a>
-            </Col>
-          </Row>
-        </Container>
+                <a className="d-block mt-3" href={`${movie.homepage}`}>
+                  Click here to go at the movie homepage!{" "}
+                </a>
+              </Col>
+            </Row>
+          </Container>
+        ) : (
+          <ClipLoader color={color} />
+        )}
       </Container>
 
       {review.length > 0 && (
@@ -334,7 +339,7 @@ export default function MovieOverview() {
       )}
       {similarMovies.length > 0 && (
         <div className="bg-white rounded shadow-sm container--similar">
-          <h4 className="p-4">Similar movies</h4>
+          <h3 className="p-4">Similar movies</h3>
           <Container
             ref={containerSiminarMovies}
             fluid

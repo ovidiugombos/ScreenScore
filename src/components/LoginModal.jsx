@@ -6,9 +6,9 @@ import {
   onAuthStateChanged,
 } from "firebase/auth";
 import { useNavigate, NavLink } from "react-router-dom";
-import { Modal } from "react-bootstrap";
-import { Form } from "react-bootstrap";
-import { Button } from "react-bootstrap";
+import { Modal, Form, Button } from "react-bootstrap";
+// import { Form } from "react-bootstrap";
+// import { Button } from "react-bootstrap";
 
 export default function LoginModal(props) {
   const [email, setEmail] = useState();
