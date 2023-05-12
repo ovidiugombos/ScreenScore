@@ -7,6 +7,13 @@ body {
   visibility: hidden;
 }
 
+/* titles */
+.title {
+  border-left: solid 5px rgb(255, 251, 0);
+  padding-left: 10px;
+  border-radius: 5px;
+}
+
 /* NAVBAR */
 .navbar {
   z-index: 10;
@@ -37,6 +44,7 @@ body {
 }
 .nav--input {
   max-width: 400px;
+  min-width: 40%;
 }
 .nav--account {
   background-color: #0275d8;
@@ -46,6 +54,25 @@ body {
 }
 .search--btn {
   cursor: pointer;
+}
+.container--realtime_results {
+  z-index: 12;
+  background-color: #ffffff;
+  min-width: 850px;
+  padding: 15px;
+}
+.realtime_images {
+  width: 60px;
+}
+.title--realtime_results {
+  border-left: solid 3px rgb(255, 251, 0);
+  padding-left: 7px;
+}
+.row--realtime_results {
+  cursor: pointer;
+}
+.row--realtime_results:hover {
+  background-color: rgb(235, 235, 235);
 }
 
 /* HOME */
@@ -196,10 +223,23 @@ body {
 .btn--overview_true {
   width: 14px;
 }
-/* SIMILAR MOVIES and reviews */
+/* ACTORS */
+.container--actors_cards {
+  overflow-y: hidden;
+}
+.card--actor {
+  width: 165px;
+}
+
+/* SIMILAR MOVIES and reviews*/
 
 .container--reviews {
+  color: #bebeda;
   margin: 20px;
+  background-image: url("../images/reviews.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }
 
 .review--avatar {
@@ -214,24 +254,37 @@ body {
   align-items: center;
 }
 
-.container--similar {
-  margin: 20px;
+.container--cards {
+  margin: 10px;
 }
 .container--similar_movies_cards {
   transition: 0.5s;
   /* overflow-x: auto; */
   overflow-y: hidden;
 }
-.card--similar_movies {
+/* .card--similar_movies {
   flex-shrink: 0;
   width: 150px;
   border: none;
-}
+} */
 .card--similar_movies_title {
   font-size: 13px;
 }
 .card--similar_movies_text {
   font-size: 13px;
+}
+
+.btn--more_reviews {
+  cursor: pointer;
+}
+/* REVIEWS */
+.container--reviews {
+  min-height: 500px;
+}
+.reviews--review_avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
 }
 
 /* MOVIES */
@@ -389,4 +442,12 @@ body {
 .footer--copyright {
   color: #0275d8;
 }
-/* TRAILER  */
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgb(185, 185, 185);
+  border-radius: 10px;
+}

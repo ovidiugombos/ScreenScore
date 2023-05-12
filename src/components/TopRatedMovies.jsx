@@ -51,7 +51,7 @@ export default function TopRatedMovies() {
 
   return (
     <div ref={mainContainer} className="container--home_movies ">
-      <h3 className="my-4 mx-2">Top Rated</h3>
+      <h3 className="my-4 mx-2 title">Top Rated</h3>
       <Container fluid className="container--movies_cards  d-flex ">
         {cards}
       </Container>

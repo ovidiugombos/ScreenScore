@@ -98,7 +98,6 @@ export default function TVShows() {
       createTopRatedTvShows(tvTopRatedData.results);
     }
     getTvData();
-    
   }, []);
 
   return (
@@ -106,7 +105,7 @@ export default function TVShows() {
       <Row>
         {tvPopular.length > 0 ? (
           <Col className=" bg-white p-4  " sm={8}>
-            <h3>Popular TV Shows</h3>
+            <h3 className="title">Popular TV Shows</h3>
             <hr className="hr" />
             {tvPopular}
           </Col>
@@ -122,7 +121,7 @@ export default function TVShows() {
         {tvTopRated.length > 0 ? (
           <Col sm={4}>
             <Container fluid className="bg-white p-4">
-              <h3>Top Rated</h3>
+              <h3 className="title">Top Rated</h3>
               <hr className="hr" />
               {tvTopRated}
             </Container>

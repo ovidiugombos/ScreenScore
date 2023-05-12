@@ -19,6 +19,7 @@ export default function TvShowOverview() {
   const tvShowId = useParams().tvshowid;
   const [genres, setGenres] = useState([]);
   const [tvShow, setTvShow] = useState("");
+  const [actors, setActors] = useState();
   const [isFavourite, setIsFavourite] = useState(false);
   const [similarTvShows, setSimilarTvShows] = useState([]);
   const [isOnWatchList, setIsOnWatchList] = useState(false);
@@ -96,8 +97,6 @@ export default function TvShowOverview() {
       querySnapshot.forEach(async (doc) => {
         await deleteDoc(doc.ref);
       });
-
-      console.log(`Tv show with the id ${tvShowId} deleted succesfully`);
     } catch (error) {
       console.log(error);
     }
@@ -115,8 +114,6 @@ export default function TvShowOverview() {
       querySnapshot.forEach(async (doc) => {
         await deleteDoc(doc.ref);
       });
-
-      console.log(`Tvshow with ID ${tvShowId} deleted successfully`);
     } catch (error) {
       console.error("Error deleting tv show:", error);
     }
@@ -147,13 +144,11 @@ export default function TvShowOverview() {
 
   async function handleTvshowData(url) {
     const res = await getData(url);
-    console.log(res);
     setTvShow(res);
     handleTvGenres(res.genres);
   }
 
   useEffect(() => {
-    console.log("ok");
     handleTvshowData(config.apiTvshowId.replace("{tvshowid}", tvShowId));
   }, [tvShowId]);
 
@@ -163,10 +158,43 @@ export default function TvShowOverview() {
     navigate(`/tvshowoverview/${showId}`);
   }
 
+  //here i create the TV actors
+
+  function createActorCards(res) {
+    res = res.slice(0, 20);
+    const arr = [];
+    res.forEach((actor) => {
+      if (actor.profile_path) {
+        arr.push(
+          <Card className="border-0 card--movie px-2 bg-transparent">
+            <Card.Img
+              className="shadow"
+              src={`${config.imgUrl}${actor.profile_path}`}
+            />
+            <Card.Body>
+              <Card.Title className="fw-bold">{actor.name}</Card.Title>
+              <Card.Text className="text-secondary">
+                {actor.character}
+              </Card.Text>
+            </Card.Body>
+          </Card>
+        );
+      }
+    });
+    setActors(arr);
+  }
+
+  async function getTvCredits(url) {
+    const res = await getData(url);
+    createActorCards(res.cast);
+  }
+
+  useEffect(() => {
+    getTvCredits(config.apiTvshowCredits.replace("{tvshowid}", tvShowId));
+  }, [tvShowId]);
   //creating similar tvShows
 
   function createSimilarTvshows(tvshows) {
-    console.log(tvshows);
     const arr = tvshows.map((show) => {
       if (show.poster_path) {
         return (
@@ -271,9 +299,18 @@ export default function TvShowOverview() {
         )}
       </Container>
 
+      {actors?.length > 0 && (
+        <div className="py-2 bg-white rounded shadow-sm container--cards">
+          <h4 className="m-3 title">Top Billed Cast</h4>
+          <Container fluid className="d-flex container--actors_cards ">
+            {actors}
+          </Container>
+        </div>
+      )}
+
       {similarTvShows.length > 0 && (
-        <div className="bg-white rounded shadow-sm container--similar">
-          <h4 className="p-4">Similar Tvshows</h4>
+        <div className="py-2 bg-white rounded shadow-sm container--cards">
+          <h4 className="m-3 title">Similar Tvshows</h4>
           <Container
             // ref={containerSiminarMovies}
             fluid

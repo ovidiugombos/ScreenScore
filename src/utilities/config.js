@@ -3,9 +3,11 @@ import { key } from "../../TMDBApiKey.js";
 const config = {
   searchMovieUrl: `https://api.themoviedb.org/3/search/movie?api_key=${key}&query=`, //by query
   searchTvShowUrl: `https://api.themoviedb.org/3/search/tv?api_key=${key}&query=`, //by query
-  apiMovieId: `https://api.themoviedb.org/3/movie/{movieid}?api_key=${key}&language=en-US`,
+  apiMovieId: `https://api.themoviedb.org/3/movie/{movieid}?api_key=${key}&language=en-US`, //movie by id
+  apiTvshowId: `https://api.themoviedb.org/3/tv/{tvshowid}?api_key=${key}&language=en-US`, //tv by id
+  apiMovieCredits: `https://api.themoviedb.org/3/movie/{movieid}/credits?api_key=${key}`, // movie credits ID
+  apiTvshowCredits: `https://api.themoviedb.org/3/tv/{tvshowid}/credits?api_key=${key}&language=en-US`, //tv credits
   apiMovieReview: `https://api.themoviedb.org/3/movie/{movieid}/reviews?api_key=${key}&language=en-US&page=1`,
-  apiTvshowId: `https://api.themoviedb.org/3/tv/{tvshowid}?api_key=${key}&language=en-US`,
   apiSimilarMovies: `https://api.themoviedb.org/3/movie/{movieid}/similar?api_key=${key}`,
   apiSimilarTvshows: `https://api.themoviedb.org/3/tv/{tvshowid}/similar?api_key=${key}&language=en-US&page=1`,
   apiPopularUrl: `https://api.themoviedb.org/3/movie/popular?api_key=${key}&language=en-US`,
@@ -19,3 +21,4 @@ const config = {
 };
 export default config;
 // `https://api.themoviedb.org/3/movie/${id}?api_key=5da148ae85fba43a0abfb7bff2aca05a&language=en-US`
+// https://api.themoviedb.org/3/tv/{tv_id}/credits?api_key=<<api_key>>&language=en-US

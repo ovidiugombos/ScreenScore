@@ -40,7 +40,6 @@ export default function Movies() {
 
   //create the cards
   function createMovieCards(movies) {
-    console.log("create");
     const cards = movies.map(function (movie, index) {
       let pathColor, trailColor;
       const vote = Math.trunc(movie.vote_average * 10);
@@ -158,7 +157,7 @@ export default function Movies() {
       <Row>
         <Col lg={3} className="container--movie_filters">
           <Container className="mx-2" fluid>
-            <h4 className=" my-2 align-self-start">{filter}</h4>
+            <h4 className=" my-2 align-self-start title">{filter}</h4>
             <hr className="hr" />
             <h5>Search by: </h5>
             <p className="filter_category" onClick={handlePopular}>

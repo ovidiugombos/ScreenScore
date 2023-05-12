@@ -1,8 +1,10 @@
+import React from "react";
 import Home from "./components/menu/Home";
 import PageNavbar from "./components/PageNavbar";
 import MovieOverview from "./components/MovieOverview";
 import TvShowOverView from "./components/TvShowOverview";
 import Movies from "./components/menu/Movies";
+import Reviews from "./components/Reviews";
 import TVShows from "./components/menu/TVShows";
 import Profile from "./components/Profile";
 import SearchResults from "./components/SearchResults";
@@ -28,6 +30,7 @@ function App() {
           <Route path="/movies" element={<Movies />} />
           <Route path="/tvshows" element={<TVShows />} />
           <Route path="/movieoverview/:movieId" element={<MovieOverview />} />
+          <Route path="/reviews/:movieId" element={<Reviews />} />
           <Route path="/searchresults/:searchId" element={<SearchResults />} />
           <Route
             path="/tvshowoverview/:tvshowid"

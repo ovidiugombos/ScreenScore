@@ -68,7 +68,6 @@ export default function Profile() {
   }
 
   useEffect(() => {
-    console.log("reloaded");
     setMovies([]);
     const fetchMovies = async () => {
       try {
@@ -77,7 +76,6 @@ export default function Profile() {
         );
         querySnapshot.forEach((doc) => {
           createMovie(doc.data().id);
-          console.log(doc.data().id);
         });
       } catch (error) {
         console.log(error);
@@ -169,7 +167,7 @@ export default function Profile() {
         </Container>
       </Container>
       <Container fluid className="profile--list_container bg-white p-3">
-        <h3 className="d-inline mx-3">My {param}</h3>
+        <h3 className="d-inline mx-3 title">My {param}</h3>
         <p
           ref={refMovieFilter}
           className="profile--filter profile--active_filter d-inline mx-2 p-1 "

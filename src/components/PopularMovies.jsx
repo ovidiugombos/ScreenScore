@@ -53,7 +53,7 @@ export default function PopularMovies() {
 
   return (
     <div ref={mainContainer} className="container--home_movies ">
-      <h3 className="my-4 mx-2">Trending now</h3>
+      <h3 className="my-4 mx-2 title">Trending now</h3>
       {/* <ClipLoader color={color} /> */}
       <Container fluid className="container--movies_cards  d-flex ">
         {cards}

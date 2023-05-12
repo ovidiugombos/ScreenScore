@@ -22,8 +22,8 @@ import ClipLoader from "react-spinners/ClipLoader";
 
 export default function MovieOverview() {
   const [movie, setMovie] = useState("");
-  const [review, setReview] = useState("");
   const [genres, setGenres] = useState([]);
+  const [actors, setActors] = useState();
   const [similarMovies, setSimilarMovies] = useState([]);
   const [isFavourite, setIsFavourite] = useState(false);
   const [isOnWatchList, setIsOnWatchList] = useState(false);
@@ -134,8 +134,6 @@ export default function MovieOverview() {
       querySnapshot.forEach(async (doc) => {
         await deleteDoc(doc.ref);
       });
-
-      console.log(`Movie with ID ${movieId} deleted successfully`);
     } catch (error) {
       console.error("Error deleting movie:", error);
     }
@@ -153,8 +151,6 @@ export default function MovieOverview() {
       querySnapshot.forEach(async (doc) => {
         await deleteDoc(doc.ref);
       });
-
-      console.log(`Movie with ID ${movieId} deleted successfully`);
     } catch (error) {
       console.error("Error deleting movie:", error);
     }
@@ -173,6 +169,41 @@ export default function MovieOverview() {
     isOnWatchList && addOnWatchList();
     !isOnWatchList && removeFromWatchList();
   }, [isOnWatchList]);
+
+  //creating actors for the movie
+
+  function createActorCards(res) {
+    res = res.slice(0, 20);
+    const arr = [];
+    res.forEach((actor) => {
+      if (actor.profile_path) {
+        arr.push(
+          <Card className="border-0 card--movie px-2 bg-transparent">
+            <Card.Img
+              className="shadow"
+              src={`${config.imgUrl}${actor.profile_path}`}
+            />
+            <Card.Body>
+              <Card.Title className="fw-bold">{actor.name}</Card.Title>
+              <Card.Text className="text-secondary">
+                {actor.character}
+              </Card.Text>
+            </Card.Body>
+          </Card>
+        );
+      }
+    });
+    setActors(arr);
+  }
+
+  async function getMovieCredits(url) {
+    const res = await getData(url);
+    createActorCards(res.cast);
+  }
+
+  useEffect(() => {
+    getMovieCredits(config.apiMovieCredits.replace("{movieid}", movieId));
+  }, [movieId]);
 
   //creating similar movies
 
@@ -205,22 +236,22 @@ export default function MovieOverview() {
     setGenres(createGenres);
   }
 
-  //fetching the movies and movies reviews
+  //fetching the movies
   async function handleMovieData(url) {
     const res = await getData(url);
     setMovie(res);
     handleMovieGenres(res.genres);
   }
 
-  async function handleMovieReview(url) {
-    const res = await getData(url);
-    setReview(res.results);
-  }
-
   useEffect(() => {
     handleMovieData(config.apiMovieId.replace("{movieid}", movieId));
-    handleMovieReview(config.apiMovieReview.replace("{movieid}", movieId));
   }, [movieId]);
+
+  //goToMoreReviews
+
+  function goToMoreReviews() {
+    navigate(`/reviews/${movieId}`);
+  }
 
   return (
     <>
@@ -259,8 +290,12 @@ export default function MovieOverview() {
                 </p>
                 <hr className="hr" />
 
-                <h4>{movie.tagline || "Overview"}</h4>
-                <p>{movie.overview}</p>
+                {movie.overview && (
+                  <div>
+                    <h4>{movie.tagline || "Overview"}</h4>
+                    <p>{movie.overview}</p>
+                  </div>
+                )}
 
                 {user && (
                   <Container fluid>
@@ -285,8 +320,11 @@ export default function MovieOverview() {
                   </Container>
                 )}
 
-                <a className="d-block mt-3" href={`${movie.homepage}`}>
-                  Click here to go at the movie homepage!{" "}
+                <a
+                  className="d-block mt-3 btn--more_reviews"
+                  onClick={goToMoreReviews}
+                >
+                  Go to reviews!{" "}
                 </a>
               </Col>
             </Row>
@@ -296,48 +334,22 @@ export default function MovieOverview() {
         )}
       </Container>
 
-      {review.length > 0 && (
-        <div className="bg-white rounded shadow-sm container--reviews">
-          <h4 className="p-4">Reviews</h4>
-
-          <Row className="mx-3">
-            <Col md={1} className="d-none d-md-block  ">
-              <div className="review--avatar">{review[0].author[0]}</div>
-            </Col>
-
-            <Col md={11} className="">
-              <Container className="container--review" fluid>
-                <p>
-                  <span className="text-secondary">Review by </span>
-                  <span className="fw-bold">{review[0].author} </span>
-                  {review[0].author_details.rating &&
-                    [...Array(Math.trunc(review[0].author_details.rating))].map(
-                      (index) => (
-                        <img
-                          className="img--rating_star "
-                          src="\src\images\rating_star.png"
-                          key={index}
-                        />
-                      )
-                    )}
-                </p>
-                <p
-                  className="fst-italic"
-                  dangerouslySetInnerHTML={{ __html: review[0].content }}
-                ></p>
-              </Container>
-              <hr className="hr" />
-            </Col>
-          </Row>
+      {actors?.length > 0 && (
+        <div className="py-2 bg-white rounded shadow-sm container--cards">
+          <h4 className="m-3 title">Top Billed Cast</h4>
+          <Container fluid className="d-flex container--actors_cards ">
+            {actors}
+          </Container>
         </div>
       )}
+
       {similarMovies.length > 0 && (
-        <div className="bg-white rounded shadow-sm container--similar">
-          <h3 className="p-4">Similar movies</h3>
+        <div className="py-2 bg-white rounded shadow-sm container--cards">
+          <h4 className="m-3 title">Similar movies</h4>
           <Container
             ref={containerSiminarMovies}
             fluid
-            className="d-flex container--similar_movies_cards "
+            className="d-flex container--similar_movies_cards"
           >
             {similarMovies}
           </Container>

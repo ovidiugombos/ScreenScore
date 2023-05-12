@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useRef, useContext } from "react";
 import Slideshow from "../Slideshow";
 import PopularMovies from "../PopularMovies";
-
 import TopRatedMovies from "../TopRatedMovies";
 import { observer } from "../../utilities/intersectionObserver";
 import { Container, Row, Col, Button } from "react-bootstrap";
