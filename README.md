@@ -8,9 +8,10 @@ Features
 
     Displays popular movies, top-rated movies, and more.
     Allows for movie and TV show searching by keyword.
+    Real-time search results 
     Filters movies and TV shows by genre, top-rated, popularity, and upcoming.
     Generates similar movies or TV shows for every movie or TV show.
-    Shows movie and TV show information, such as ratings, overviews, release dates, genres, and more.
+    Shows movie and TV show information, such as ratings, overviews, release dates, genres, actors, and more.
     Navigates to the original website of the movie or TV show.
     Allows users to add movies or TV shows to their favorites or watchlist.
     Uses loading spinners and intersection observers for seamless user experience
